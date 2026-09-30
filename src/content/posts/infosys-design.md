@@ -2,7 +2,7 @@
 title: 情シスでも、デザインしたって良いじゃない？
 date: 2022-12-07
 tags: [デザイン, Figma, アドカレ]
-description: FUN Advent Calendar 2022 7日目。情報システムコースの学生がデザインと向き合うようになるまでの話。
+description: FUN Advent Calendar 2022 7日目。情報システムコース所属生(だった)がデザインと向き合うようになるまでの話。
 ---
 
 この記事は[FUN Advent Calendar 2022 Part1](https://adventar.org/calendars/7402) 7日目の記事です。
