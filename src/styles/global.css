@@ -24,9 +24,9 @@
   --font-jp:
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium",
     "Yu Gothic", Meiryo, sans-serif;
-  /* blog/typography — タイトル・見出し用の丸ゴシック */
-  --font-jp-round:
-    "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+  /* blog/typography — タイトル・見出し用の角ゴシック (骨格柔らかめ) */
+  --font-jp-head:
+    "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
     "Yu Gothic Medium", Meiryo, sans-serif;
 
   /* shape — 角丸で柔らかさを出す */
@@ -90,7 +90,7 @@ p {
 .prose h1,
 .prose h2,
 .prose h3 {
-  font-family: var(--font-jp-round);
+  font-family: var(--font-jp-head);
   color: var(--color-text);
   line-height: 1.5;
   margin: 2.2em 0 0.8em;
