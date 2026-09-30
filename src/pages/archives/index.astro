@@ -1,0 +1,140 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.date.getFullYear();
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(post);
+}
+const years = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
+
+const formatMonthDay = (date: Date) =>
+  date.toLocaleDateString("ja-JP", { month: "2-digit", day: "2-digit" });
+---
+
+<BaseLayout title="Archives — 月とサボテン">
+  <div class="page-layout">
+    <div>
+      <header class="page-header">
+        <p class="page-eyebrow">Archives</p>
+        <h1 class="page-title">アーカイブ</h1>
+        <p class="page-count">全{posts.length}件の記事</p>
+      </header>
+      <div class="archive-years">
+        {
+          years.map(([year, yearPosts]) => (
+            <section class="archive-year" id={`year-${year}`}>
+              <h2 class="year-label">{year}</h2>
+              <ul class="year-posts">
+                {yearPosts.map((post) => (
+                  <li>
+                    <a href={`/posts/${post.id}/`}>
+                      <time datetime={post.data.date.toISOString()}>
+                        {formatMonthDay(post.data.date)}
+                      </time>
+                      <span>{post.data.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+    <Sidebar />
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    color: var(--color-accent-bloom);
+  }
+
+  .page-title {
+    font-family: var(--font-jp-round);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .page-count {
+    font-size: 13px;
+    color: var(--color-text-soft);
+  }
+
+  .archive-years {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .archive-year {
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-card);
+    /* ヘッダー分の余白を確保してアンカー移動時に隠れないようにする */
+    scroll-margin-top: 24px;
+  }
+
+  .year-label {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin: 0 0 8px;
+    color: var(--color-accent-bloom);
+  }
+
+  .year-posts {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .year-posts li + li {
+    border-top: 1px solid var(--color-black-600);
+  }
+
+  .year-posts a {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-soft);
+    transition: color 0.2s ease;
+  }
+
+  .year-posts a:hover {
+    color: var(--color-text);
+  }
+
+  .year-posts time {
+    flex-shrink: 0;
+    font-size: 12px;
+    letter-spacing: 1px;
+    opacity: 0.75;
+  }
+</style>

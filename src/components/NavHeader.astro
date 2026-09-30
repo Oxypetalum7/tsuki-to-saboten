@@ -3,6 +3,8 @@ import flowerMark from "../assets/brand/flower-mark.svg";
 
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "Tags", href: "/tags/" },
+  { label: "Archives", href: "/archives/" },
   { label: "Portfolio ↗", href: "https://gekka-o.xyz/", external: true },
 ];
 
@@ -27,7 +29,12 @@ const currentPath = Astro.url.pathname;
           target={item.external ? "_blank" : undefined}
           rel={item.external ? "noopener" : undefined}
           aria-current={
-            !item.external && currentPath === item.href ? "page" : undefined
+            !item.external &&
+            (item.href === "/"
+              ? currentPath === "/"
+              : currentPath.startsWith(item.href))
+              ? "page"
+              : undefined
           }
         >
           {item.label}

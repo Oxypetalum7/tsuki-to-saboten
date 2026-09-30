@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -25,7 +26,8 @@ const formatDate = (date: Date) =>
   title={`${post.data.title} — 月とサボテン`}
   description={post.data.description}
 >
-  <article class="post">
+  <div class="page-layout">
+    <article class="post">
     <header class="post-header">
       <time datetime={post.data.date.toISOString()}>
         {formatDate(post.data.date)}
@@ -35,7 +37,9 @@ const formatDate = (date: Date) =>
         post.data.tags.length > 0 && (
           <ul class="post-tags">
             {post.data.tags.map((tag) => (
-              <li>#{tag}</li>
+              <li>
+                <a href={`/tags/${tag}/`}>#{tag}</a>
+              </li>
             ))}
           </ul>
         )
@@ -44,18 +48,18 @@ const formatDate = (date: Date) =>
     <div class="prose">
       <Content />
     </div>
-    <nav class="post-footer-nav">
-      <a href="/">← 記事一覧へ戻る</a>
-    </nav>
-  </article>
+      <nav class="post-footer-nav">
+        <a href="/">← 記事一覧へ戻る</a>
+      </nav>
+    </article>
+    <Sidebar />
+  </div>
 </BaseLayout>
 
 <style>
   .post {
     width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 48px 20px 64px;
+    min-width: 0;
   }
 
   .post-header {
@@ -90,13 +94,19 @@ const formatDate = (date: Date) =>
     list-style: none;
   }
 
-  .post-tags li {
+  .post-tags li a {
+    display: inline-block;
     font-size: 11px;
     letter-spacing: 0.5px;
     padding: 2px 10px;
     border-radius: 999px;
     background: var(--color-black-600);
     color: var(--color-text-soft);
+    transition: color 0.2s ease;
+  }
+
+  .post-tags li a:hover {
+    color: var(--color-accent-bloom);
   }
 
   .post-footer-nav {

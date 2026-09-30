@@ -1,0 +1,102 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+
+const posts = await getCollection("posts");
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const maxCount = Math.max(1, ...tagCounts.values());
+const tags = [...tagCounts.entries()].sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ja"),
+);
+// 記事数に応じて 16px〜32px の間でフォントサイズを変える
+const cloudSize = (count: number) => 16 + Math.round((count / maxCount) * 16);
+---
+
+<BaseLayout title="Tags — 月とサボテン">
+  <div class="page-layout">
+    <div>
+      <header class="page-header">
+        <p class="page-eyebrow">Tags</p>
+        <h1 class="page-title">タグ一覧</h1>
+        <p class="page-count">{tags.length}個のタグ</p>
+      </header>
+      <div class="tag-cloud">
+        {
+          tags.map(([tag, count]) => (
+            <a href={`/tags/${tag}/`} style={`font-size: ${cloudSize(count)}px`}>
+              #{tag}
+              <span class="tag-count">{count}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    <Sidebar />
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    color: var(--color-accent-bloom);
+  }
+
+  .page-title {
+    font-family: var(--font-jp-round);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .page-count {
+    font-size: 13px;
+    color: var(--color-text-soft);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 16px 24px;
+    padding: 28px 32px;
+    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-card);
+  }
+
+  .tag-cloud a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    color: var(--color-text-soft);
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+  }
+
+  .tag-cloud a:hover {
+    color: var(--color-accent-bloom);
+  }
+
+  .tag-count {
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--color-black-600);
+  }
+</style>

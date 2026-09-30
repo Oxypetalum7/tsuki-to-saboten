@@ -1,68 +1,34 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import Sidebar from "../components/Sidebar.astro";
 
 const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 ---
 
 <BaseLayout title="月とサボテン — Oxypetalum7’s blog">
-  <div class="home">
-    <section class="hero">
-      <h1 class="hero-title">月とサボテン</h1>
-      <p class="hero-subtitle">Oxypetalum7’s blog</p>
-      <p class="hero-lead">咲いたら書く、玉石混淆の雑記帳。</p>
-    </section>
-    <section class="post-list">
-      {
-        posts.map((post) => (
-          <a class="post-card" href={`/posts/${post.id}/`}>
-            <time class="post-date" datetime={post.data.date.toISOString()}>
-              {formatDate(post.data.date)}
-            </time>
-            <h2 class="post-title">{post.data.title}</h2>
-            {post.data.description && (
-              <p class="post-description">{post.data.description}</p>
-            )}
-            {post.data.tags.length > 0 && (
-              <ul class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <li>#{tag}</li>
-                ))}
-              </ul>
-            )}
-          </a>
-        ))
-      }
-    </section>
+  <section class="hero">
+    <h1 class="hero-title">月とサボテン</h1>
+    <p class="hero-subtitle">Oxypetalum7’s blog</p>
+    <p class="hero-lead">咲いたら書く、玉石混淆の雑記帳。</p>
+  </section>
+  <div class="page-layout">
+    <PostList posts={posts} />
+    <Sidebar />
   </div>
 </BaseLayout>
 
 <style>
-  .home {
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 48px 20px 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
-
   .hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     text-align: center;
+    padding: 48px 20px 0;
   }
 
   .hero-title {
@@ -85,67 +51,5 @@ const formatDate = (date: Date) =>
     letter-spacing: 1px;
     color: var(--color-text-soft);
     margin-top: 8px;
-  }
-
-  .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .post-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 20px 24px;
-    background: var(--color-surface);
-    border-radius: var(--radius-l);
-    box-shadow: var(--shadow-card);
-    transition:
-      background 0.2s ease,
-      transform 0.2s ease;
-  }
-
-  .post-card:hover {
-    background: var(--color-surface-raised);
-    transform: translateY(-2px);
-  }
-
-  .post-date {
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--color-text-soft);
-  }
-
-  .post-title {
-    font-family: var(--font-jp-round);
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .post-description {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--color-text-soft);
-  }
-
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 4px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .post-tags li {
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    padding: 2px 10px;
-    border-radius: 999px;
-    background: var(--color-black-600);
-    color: var(--color-text-soft);
   }
 </style>

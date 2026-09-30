@@ -1,0 +1,103 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<section class="post-list">
+  {
+    posts.map((post) => (
+      <a class="post-card" href={`/posts/${post.id}/`}>
+        <time class="post-date" datetime={post.data.date.toISOString()}>
+          {formatDate(post.data.date)}
+        </time>
+        <h2 class="post-title">{post.data.title}</h2>
+        {post.data.description && (
+          <p class="post-description">{post.data.description}</p>
+        )}
+        {post.data.tags.length > 0 && (
+          <ul class="post-tags">
+            {post.data.tags.map((tag) => (
+              <li>#{tag}</li>
+            ))}
+          </ul>
+        )}
+      </a>
+    ))
+  }
+</section>
+
+<style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-card);
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .post-card:hover {
+    background: var(--color-surface-raised);
+    transform: translateY(-2px);
+  }
+
+  .post-date {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+  }
+
+  .post-title {
+    font-family: var(--font-jp-round);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .post-description {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-text-soft);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-tags li {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--color-black-600);
+    color: var(--color-text-soft);
+  }
+</style>

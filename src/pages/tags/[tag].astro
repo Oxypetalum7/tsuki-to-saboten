@@ -1,0 +1,85 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import Sidebar from "../../components/Sidebar.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      posts: posts
+        .filter((post) => post.data.tags.includes(tag))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag} — 月とサボテン`}>
+  <div class="page-layout">
+    <div>
+      <header class="page-header">
+        <p class="page-eyebrow">Tag</p>
+        <h1 class="page-title">#{tag}</h1>
+        <p class="page-count">{posts.length}件の記事</p>
+      </header>
+      <PostList posts={posts} />
+      <nav class="page-footer-nav">
+        <a href="/tags/">← タグ一覧へ</a>
+      </nav>
+    </div>
+    <Sidebar />
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .page-eyebrow {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    color: var(--color-accent-bloom);
+  }
+
+  .page-title {
+    font-family: var(--font-jp-round);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .page-count {
+    font-size: 13px;
+    color: var(--color-text-soft);
+  }
+
+  .page-footer-nav {
+    margin-top: 32px;
+  }
+
+  .page-footer-nav a {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    transition: background 0.2s ease;
+  }
+
+  .page-footer-nav a:hover {
+    background: var(--color-surface-raised);
+  }
+</style>

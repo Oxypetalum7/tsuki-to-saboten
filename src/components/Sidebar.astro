@@ -1,0 +1,179 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const recentPosts = posts.slice(0, 5);
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const maxCount = Math.max(1, ...tagCounts.values());
+const tags = [...tagCounts.entries()].sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ja"),
+);
+// 記事数に応じて 13px〜19px の間でフォントサイズを変える
+const cloudSize = (count: number) => 13 + Math.round((count / maxCount) * 6);
+
+const yearCounts = new Map<number, number>();
+for (const post of posts) {
+  const year = post.data.date.getFullYear();
+  yearCounts.set(year, (yearCounts.get(year) ?? 0) + 1);
+}
+const archives = [...yearCounts.entries()].sort((a, b) => b[0] - a[0]);
+---
+
+<aside class="sidebar">
+  <section class="widget">
+    <h2 class="widget-title">Tag Cloud</h2>
+    <div class="tag-cloud">
+      {
+        tags.map(([tag, count]) => (
+          <a
+            href={`/tags/${tag}/`}
+            style={`font-size: ${cloudSize(count)}px`}
+          >
+            #{tag}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="widget">
+    <h2 class="widget-title">Recent Posts</h2>
+    <ul class="recent-posts">
+      {
+        recentPosts.map((post) => (
+          <li>
+            <a href={`/posts/${post.id}/`}>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("ja-JP")}
+              </time>
+              <span>{post.data.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="widget">
+    <h2 class="widget-title">Archives</h2>
+    <ul class="archives">
+      {
+        archives.map(([year, count]) => (
+          <li>
+            <a href={`/archives/#year-${year}`}>
+              <span>{year}</span>
+              <span class="archive-count">{count}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</aside>
+
+<style>
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .widget {
+    padding: 18px 20px;
+    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-card);
+  }
+
+  .widget-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    margin: 0 0 12px;
+    color: var(--color-accent-bloom);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+  }
+
+  .tag-cloud a {
+    color: var(--color-text-soft);
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+  }
+
+  .tag-cloud a:hover {
+    color: var(--color-accent-bloom);
+  }
+
+  .recent-posts,
+  .archives {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .recent-posts li + li,
+  .archives li + li {
+    border-top: 1px solid var(--color-black-600);
+  }
+
+  .recent-posts a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-text-soft);
+    transition: color 0.2s ease;
+  }
+
+  .recent-posts a:hover {
+    color: var(--color-text);
+  }
+
+  .recent-posts time {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    opacity: 0.75;
+  }
+
+  .archives a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+    transition: color 0.2s ease;
+  }
+
+  .archives a:hover {
+    color: var(--color-text);
+  }
+
+  .archive-count {
+    font-size: 11px;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: var(--color-black-600);
+  }
+</style>
