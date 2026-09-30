@@ -1,0 +1,120 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<BaseLayout
+  title={`${post.data.title} — 月とサボテン`}
+  description={post.data.description}
+>
+  <article class="post">
+    <header class="post-header">
+      <time datetime={post.data.date.toISOString()}>
+        {formatDate(post.data.date)}
+      </time>
+      <h1 class="post-title">{post.data.title}</h1>
+      {
+        post.data.tags.length > 0 && (
+          <ul class="post-tags">
+            {post.data.tags.map((tag) => (
+              <li>#{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <nav class="post-footer-nav">
+      <a href="/">← 記事一覧へ戻る</a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 20px 64px;
+  }
+
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-black-600);
+  }
+
+  .post-header time {
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+  }
+
+  .post-title {
+    font-family: var(--font-jp-round);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-tags li {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--color-black-600);
+    color: var(--color-text-soft);
+  }
+
+  .post-footer-nav {
+    margin-top: 56px;
+    text-align: center;
+  }
+
+  .post-footer-nav a {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    transition: background 0.2s ease;
+  }
+
+  .post-footer-nav a:hover {
+    background: var(--color-surface-raised);
+  }
+</style>

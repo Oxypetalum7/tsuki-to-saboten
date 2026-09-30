@@ -1,0 +1,27 @@
+{
+  "name": "tsuki-to-saboten",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "astro build && wrangler deploy"
+  },
+  "dependencies": {
+    "@fontsource/alumni-sans": "^5.3.0",
+    "@fontsource/alumni-sans-pinstripe": "^5.3.0",
+    "@fontsource/averia-gruesa-libre": "^5.3.0",
+    "astro": "^7.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "wrangler": "^4.134.0"
+  }
+}

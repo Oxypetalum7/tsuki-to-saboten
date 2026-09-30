@@ -1,0 +1,182 @@
+/* ---------------------------------------------------------------------------
+ * Design tokens
+ * ポートフォリオ (gekka-o.xyz) のトークンを踏襲しつつ、ブログ向けに
+ * 「柔らかめ」の派生トークン (surface / warm gray / radius / 丸ゴ) を追加している
+ * ------------------------------------------------------------------------- */
+:root {
+  /* global/color — portfolio 由来 */
+  --color-background-default: #292927;
+  --color-white-200: #b3b5b5;
+  --color-black-600: #3d3d3c;
+  --color-text: #ffffff;
+
+  /* blog/color — 柔らかめ派生 */
+  --color-surface: #32322f;
+  --color-surface-raised: #3a3a36;
+  --color-text-soft: #cdc9c0; /* white-200 より一段暖かいグレー */
+  --color-accent-bloom: #e8d8c3; /* 月下美人の花弁を思わせる生成り */
+
+  /* typography — portfolio 由来 */
+  --font-display: "Alumni Sans Pinstripe", "Alumni Sans", sans-serif;
+  --font-alumni: "Alumni Sans", sans-serif;
+  --font-accent: "Averia Gruesa Libre", serif;
+  --font-jp:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium",
+    "Yu Gothic", Meiryo, sans-serif;
+  /* blog/typography — タイトル・見出し用の丸ゴシック */
+  --font-jp-round:
+    "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic Medium", Meiryo, sans-serif;
+
+  /* shape — 角丸で柔らかさを出す */
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 20px;
+
+  /* elevation — portfolio 由来 */
+  --shadow-header: 0 4px 16px 0 rgba(13, 13, 13, 0.15);
+  --shadow-footer: 0 0 16px 0 rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-background-default);
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background-default);
+  color: var(--color-text);
+  font-family: var(--font-jp);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 記事本文 (Markdown レンダリング結果) — 長文を読む場所なので読書優先の文字組み
+ * ------------------------------------------------------------------------- */
+.prose {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--color-text-soft);
+}
+
+.prose p {
+  margin: 0 0 1.4em;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: var(--font-jp-round);
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 2.2em 0 0.8em;
+}
+
+.prose h1 {
+  font-size: 24px;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--color-black-600);
+}
+
+.prose h2 {
+  font-size: 20px;
+}
+
+.prose h3 {
+  font-size: 17px;
+}
+
+.prose a {
+  color: var(--color-accent-bloom);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-accent-bloom) 45%, transparent);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-accent-bloom);
+}
+
+.prose strong {
+  color: var(--color-text);
+}
+
+.prose img {
+  display: block;
+  margin: 1.5em auto;
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-card);
+}
+
+.prose blockquote {
+  margin: 1.5em 0;
+  padding: 0.8em 1.2em;
+  border-left: 3px solid var(--color-accent-bloom);
+  border-radius: var(--radius-s);
+  background: var(--color-surface);
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose blockquote blockquote {
+  margin: 0.8em 0 0;
+}
+
+.prose code {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-s);
+  background: var(--color-surface-raised);
+}
+
+.prose pre {
+  padding: 1em 1.2em;
+  border-radius: var(--radius-m);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.5em;
+}
+
+.prose li {
+  margin-bottom: 0.4em;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-black-600);
+  margin: 2.5em 0;
+}

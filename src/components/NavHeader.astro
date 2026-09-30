@@ -1,0 +1,118 @@
+---
+import flowerMark from "../assets/brand/flower-mark.svg";
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Portfolio ↗", href: "https://gekka-o.xyz/", external: true },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="nav-header">
+  <a class="brand" href="/">
+    <span class="brand-mark">
+      <img src={flowerMark.src} alt="" width="48" height="48" />
+    </span>
+    <span class="brand-text">
+      <span class="brand-title">月とサボテン</span>
+      <span class="brand-subtitle">Oxypetalum7’s blog</span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="メインナビゲーション">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener" : undefined}
+          aria-current={
+            !item.external && currentPath === item.href ? "page" : undefined
+          }
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<style>
+  .nav-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px clamp(16px, 4vw, 32px);
+    width: 100%;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-header);
+    position: relative;
+    z-index: 10;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: clamp(40px, 5vw, 56px);
+    height: clamp(40px, 5vw, 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .brand-title {
+    font-family: var(--font-jp-round);
+    font-size: clamp(18px, 2.4vw, 24px);
+    font-weight: 600;
+    letter-spacing: clamp(1.5px, 0.3vw, 3px);
+  }
+
+  .brand-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(11px, 1.4vw, 14px);
+    letter-spacing: clamp(1px, 0.25vw, 2.4px);
+    color: var(--color-text-soft);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 20px);
+  }
+
+  .nav-links a {
+    font-family: var(--font-jp);
+    font-weight: 300;
+    font-size: clamp(13px, 1.4vw, 16px);
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-radius: var(--radius-s);
+    transition: background 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    background: var(--color-surface-raised);
+  }
+
+  .nav-links a[aria-current="page"] {
+    font-weight: 600;
+  }
+</style>
