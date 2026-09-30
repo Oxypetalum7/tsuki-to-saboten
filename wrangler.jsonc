@@ -5,7 +5,9 @@
   "name": "tsuki-to-saboten",
   "compatibility_date": "2026-09-18",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // 存在しないパスでは dist/404.html を 404 ステータスで返す
+    "not_found_handling": "404-page"
   },
   "routes": [
     {

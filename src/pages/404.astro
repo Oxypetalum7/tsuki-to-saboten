@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import lupetan404 from "../assets/brand/lupetan-404.png";
+---
+
+<BaseLayout
+  title="ページが見つかりません — 月とサボテン"
+  description="お探しのページは見つかりませんでした。"
+>
+  <div class="not-found">
+    <img
+      class="not-found-image"
+      src={lupetan404.src}
+      alt=""
+      width="256"
+      height="256"
+    />
+    <p class="not-found-code">404</p>
+    <h1 class="not-found-title">ページが見つかりません</h1>
+    <p class="not-found-lead">
+      お探しのページは、移動したか、まだ咲いていないようです。
+    </p>
+    <a class="not-found-link" href="/">← トップへ戻る</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    padding: 64px 20px;
+  }
+
+  .not-found-image {
+    width: clamp(160px, 30vw, 256px);
+    height: auto;
+  }
+
+  .not-found-code {
+    font-family: var(--font-alumni);
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--color-accent-lupe);
+  }
+
+  .not-found-title {
+    font-family: var(--font-jp-head);
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .not-found-lead {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-text-soft);
+  }
+
+  .not-found-link {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--color-text-soft);
+    margin-top: 16px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    transition: background 0.2s ease;
+  }
+
+  .not-found-link:hover {
+    background: var(--color-surface-raised);
+  }
+</style>

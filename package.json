@@ -13,6 +13,8 @@
     "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource/alumni-sans": "^5.3.0",
     "@fontsource/alumni-sans-pinstripe": "^5.3.0",
     "@fontsource/averia-gruesa-libre": "^5.3.0",
