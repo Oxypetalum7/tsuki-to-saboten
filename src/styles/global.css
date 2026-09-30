@@ -15,6 +15,7 @@
   --color-surface-raised: #3a3a36;
   --color-text-soft: #cdc9c0; /* white-200 より一段暖かいグレー */
   --color-accent-bloom: #e8d8c3; /* 月下美人の花弁を思わせる生成り */
+  --color-accent-lupe: #4cc9ba; /* プロフィールの狼さん (Lupetan) の線色ターコイズ */
 
   /* typography — portfolio 由来 */
   --font-display: "Alumni Sans Pinstripe", "Alumni Sans", sans-serif;
@@ -110,14 +111,14 @@ p {
 }
 
 .prose a {
-  color: var(--color-accent-bloom);
+  color: var(--color-accent-lupe);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: color-mix(in srgb, var(--color-accent-bloom) 45%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--color-accent-lupe) 45%, transparent);
 }
 
 .prose a:hover {
-  text-decoration-color: var(--color-accent-bloom);
+  text-decoration-color: var(--color-accent-lupe);
 }
 
 .prose strong {
@@ -134,7 +135,7 @@ p {
 .prose blockquote {
   margin: 1.5em 0;
   padding: 0.8em 1.2em;
-  border-left: 3px solid var(--color-accent-bloom);
+  border-left: 3px solid var(--color-accent-lupe);
   border-radius: var(--radius-s);
   background: var(--color-surface);
 }
