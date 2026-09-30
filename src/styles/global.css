@@ -24,6 +24,10 @@
   --font-jp:
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium",
     "Yu Gothic", Meiryo, sans-serif;
+  /* blog/typography — プロフィール用。少しレトロで人間味のあるUDゴシック */
+  --font-jp-biz:
+    "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic Medium", Meiryo, sans-serif;
   /* blog/typography — タイトル・見出し用の角ゴシック (骨格柔らかめ) */
   --font-jp-head:
     "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
