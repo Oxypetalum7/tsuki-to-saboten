@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Sidebar from "../../components/Sidebar.astro";
+import PageShell from "../../components/PageShell.astro";
 
 const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -20,7 +20,7 @@ const formatMonthDay = (date: Date) =>
 ---
 
 <BaseLayout title="Archives — 月とサボテン">
-  <div class="page-layout">
+  <PageShell>
     <div>
       <header class="page-header">
         <p class="page-eyebrow">Archives</p>
@@ -49,8 +49,7 @@ const formatMonthDay = (date: Date) =>
         }
       </div>
     </div>
-    <Sidebar />
-  </div>
+  </PageShell>
 </BaseLayout>
 
 <style>

@@ -1,0 +1,77 @@
+---
+import ProfileCard from "./ProfileCard.astro";
+import Sidebar from "./Sidebar.astro";
+---
+
+<div class="page-layout">
+  <div class="rail-profile">
+    <ProfileCard />
+  </div>
+  <div class="page-main">
+    <slot />
+  </div>
+  <div class="rail-side">
+    <Sidebar />
+  </div>
+</div>
+
+<style>
+  /* プロフィール / 本文 / ウィジェットの3カラム。
+   * 本文カラムを justify-content: center で常に画面中央へ置く */
+  .page-layout {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 48px 20px 64px;
+    display: grid;
+    grid-template-columns: 248px minmax(0, 720px) 264px;
+    grid-template-areas: "profile main side";
+    justify-content: center;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .rail-profile {
+    grid-area: profile;
+    position: sticky;
+    top: 24px;
+  }
+
+  .page-main {
+    grid-area: main;
+    min-width: 0;
+  }
+
+  .rail-side {
+    grid-area: side;
+  }
+
+  /* 3カラムが入らない幅ではプロフィールを右カラムの上へ合流させる */
+  @media (max-width: 1240px) {
+    .page-layout {
+      max-width: 1024px;
+      grid-template-columns: minmax(0, 1fr) 264px;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "main profile"
+        "main side";
+    }
+
+    .rail-profile {
+      position: static;
+    }
+  }
+
+  /* モバイルは1カラム縦積み: 本文 → プロフィール → ウィジェット */
+  @media (max-width: 900px) {
+    .page-layout {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      grid-template-areas:
+        "main"
+        "profile"
+        "side";
+      padding-top: 32px;
+    }
+  }
+</style>

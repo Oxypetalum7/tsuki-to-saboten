@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
-import Sidebar from "../components/Sidebar.astro";
+import PageShell from "../components/PageShell.astro";
 
 const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -15,10 +15,9 @@ const posts = (await getCollection("posts")).sort(
     <p class="hero-subtitle">Oxypetalum7’s blog</p>
     <p class="hero-lead">咲いたら書く、玉石混淆の雑記帳。</p>
   </section>
-  <div class="page-layout">
+  <PageShell>
     <PostList posts={posts} />
-    <Sidebar />
-  </div>
+  </PageShell>
 </BaseLayout>
 
 <style>

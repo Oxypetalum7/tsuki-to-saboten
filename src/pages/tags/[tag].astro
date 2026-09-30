@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostList from "../../components/PostList.astro";
-import Sidebar from "../../components/Sidebar.astro";
+import PageShell from "../../components/PageShell.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -22,7 +22,7 @@ const { posts } = Astro.props;
 ---
 
 <BaseLayout title={`#${tag} — 月とサボテン`}>
-  <div class="page-layout">
+  <PageShell>
     <div>
       <header class="page-header">
         <p class="page-eyebrow">Tag</p>
@@ -34,8 +34,7 @@ const { posts } = Astro.props;
         <a href="/tags/">← タグ一覧へ</a>
       </nav>
     </div>
-    <Sidebar />
-  </div>
+  </PageShell>
 </BaseLayout>
 
 <style>
