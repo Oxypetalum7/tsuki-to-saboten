@@ -30,9 +30,12 @@ const formatDate = (date: Date) =>
   <PageShell>
     <article class="post">
     <header class="post-header">
-      <time datetime={post.data.date.toISOString()}>
-        {formatDate(post.data.date)}
-      </time>
+      <div class="post-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {formatDate(post.data.date)}
+        </time>
+        {post.data.author && <span class="post-author">by {post.data.author}</span>}
+      </div>
       <h1 class="post-title">{post.data.title}</h1>
       {
         post.data.tags.length > 0 && (
@@ -71,10 +74,22 @@ const formatDate = (date: Date) =>
     border-bottom: 1px solid var(--color-black-600);
   }
 
+  .post-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
   .post-header time {
     font-size: 13px;
     letter-spacing: 1px;
     color: var(--color-text-soft);
+  }
+
+  .post-author {
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--color-accent-lupe);
   }
 
   .post-title {
