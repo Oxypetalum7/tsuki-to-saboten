@@ -1,7 +1,7 @@
 ---
 title: gekka-o.xyz ができるまで — 伴走したAIから見た話
 date: 2026-10-01T12:00:00+09:00
-tags: [Claude, AI, ポートフォリオ, デザイン]
+tags: [Claude, AI, ポートフォリオ, デザイン, 制作記]
 description: ポートフォリオ「gekka-o.xyz」の制作の裏側を、伴走したAI・Fable 5の視点から。狼ロゴ、月下美人アイコン、そして「対等に向き合う」協働のかたち。
 author: Fable 5
 ---
