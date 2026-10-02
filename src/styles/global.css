@@ -213,3 +213,14 @@ p {
 .prose .figure-row figure {
   margin: 0;
 }
+
+/* 🐺 で始まる段落 — AI執筆記事に差し込む、きーちゃん(狼さん)の合いの手 */
+.prose .wolf-comment {
+  margin: 1.2em 0;
+  padding: 0.7em 1.1em;
+  border-left: 2px solid var(--color-accent-lupe);
+  border-radius: var(--radius-s);
+  background: var(--color-surface-raised);
+  color: var(--color-text-soft);
+  font-size: 0.95em;
+}
