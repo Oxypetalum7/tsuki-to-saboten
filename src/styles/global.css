@@ -224,3 +224,40 @@ p {
   color: var(--color-text-soft);
   font-size: 0.95em;
 }
+
+/* 「> [!NOTE]」などのコールアウト (src/plugins/callout.mjs が付与) */
+.prose .callout {
+  --callout-color: var(--color-accent-bloom);
+  margin: 1.5em 0;
+  padding: 0.8em 1.2em;
+  border: 1px solid color-mix(in srgb, var(--callout-color) 35%, transparent);
+  border-left: 3px solid var(--callout-color);
+  border-radius: var(--radius-s);
+  background: var(--color-surface);
+}
+
+.prose .callout-tip,
+.prose .callout-important {
+  --callout-color: var(--color-accent-lupe);
+}
+
+.prose .callout-warning,
+.prose .callout-caution {
+  --callout-color: #e0a96d;
+}
+
+.prose .callout p {
+  margin: 0;
+}
+
+.prose .callout p + p {
+  margin-top: 0.6em;
+}
+
+.prose .callout-title {
+  margin-bottom: 0.3em;
+  color: var(--callout-color);
+  font-weight: 700;
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+}
