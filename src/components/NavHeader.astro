@@ -122,4 +122,26 @@ const currentPath = Astro.url.pathname;
   .nav-links a[aria-current="page"] {
     font-weight: 700;
   }
+
+  /* 狭い画面ではロゴとナビを2段に分け、ナビを全幅で均等配置する */
+  @media (max-width: 640px) {
+    .nav-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding-bottom: 6px;
+    }
+
+    .nav-links {
+      justify-content: space-between;
+      gap: 0;
+      padding-top: 6px;
+      border-top: 1px solid var(--color-surface-raised);
+    }
+
+    .nav-links a {
+      padding: 8px;
+      white-space: nowrap;
+    }
+  }
 </style>
