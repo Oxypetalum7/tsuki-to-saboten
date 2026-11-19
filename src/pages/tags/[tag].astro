@@ -21,7 +21,11 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag} — 月とサボテン`}>
+<BaseLayout
+  title={`#${tag} — 月とサボテン`}
+  description={`「${tag}」タグの記事一覧(${posts.length}件)`}
+  noindex
+>
   <PageShell>
     <div>
       <header class="page-header">

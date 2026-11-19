@@ -17,12 +17,15 @@ interface Props {
   description?: string;
   /** 記事ページでは "article" を渡す */
   ogType?: "website" | "article";
+  /** 検索結果に載せないページ(タグ別一覧など)では true を渡す。リンクは辿らせる */
+  noindex?: boolean;
 }
 
 const {
   title,
   description = "月とサボテン — Oxypetalum7's blog。玉石混淆の雑記帳です。",
   ogType = "website",
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -35,6 +38,7 @@ const ogImage = new URL("/ogp.png", Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <link
